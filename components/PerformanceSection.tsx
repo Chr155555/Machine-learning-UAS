@@ -10,15 +10,13 @@ export function PerformanceSection() {
     <section id="performa" className="py-16 bg-white border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-100 text-teal-800 text-xs font-bold uppercase tracking-wider mb-2">
-            <Award className="w-3.5 h-3.5" /> Evaluasi & Hasil Riset
-          </div>
+          
+          <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">
+            Hasil Evaluasi Dan Riset
+          </h2>
           <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">
             Perbandingan Kinerja 3 Arsitektur Model
           </h2>
-          <p className="text-slate-600 text-sm sm:text-base mt-2">
-            Hasil pengujian empiris pada test set resmi PlantDoc (252 gambar uji) yang di-training di Google Colab.
-          </p>
         </div>
 
         {/* 3 Model Metric Cards */}
@@ -39,30 +37,30 @@ export function PerformanceSection() {
           </div>
 
           {/* EfficientNet-B0 */}
-          <div className="p-6 rounded-3xl bg-emerald-50/50 border-2 border-emerald-500/80 relative overflow-hidden shadow-sm">
-            <span className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full bg-emerald-600 text-white">
+          <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200 relative overflow-hidden">
+            <span className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full bg-slate-200 text-slate-700">
               Model 2 (Deep Learning)
             </span>
-            <h4 className="text-base font-bold text-slate-900 mt-3">EfficientNet-B0</h4>
+            <h4 className="text-base font-bold text-slate-800 mt-3">EfficientNet-B0</h4>
             <p className="text-xs text-slate-500">Transfer Learning Pretrained ImageNet</p>
-            <div className="text-4xl font-black text-emerald-700 mt-4">63.5%</div>
-            <div className="text-xs text-emerald-800 font-bold mb-4">Akurasi Tertinggi ⭐</div>
-            <div className="pt-3 border-t border-emerald-200/80 grid grid-cols-2 text-xs text-slate-600">
+            <div className="text-4xl font-black text-slate-700 mt-4">63.5%</div>
+            <div className="text-xs text-slate-500 font-semibold mb-4">Akurasi Tertinggi</div>
+            <div className="pt-3 border-t border-slate-200 grid grid-cols-2 text-xs text-slate-600">
               <div>Precision: <strong>64.7%</strong></div>
               <div>Recall: <strong>62.1%</strong></div>
             </div>
           </div>
 
           {/* Hybrid Fusion */}
-          <div className="p-6 rounded-3xl bg-teal-50/50 border-2 border-teal-500/80 relative overflow-hidden shadow-sm">
-            <span className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full bg-teal-700 text-white">
+          <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200 relative overflow-hidden">
+            <span className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full bg-slate-200 text-slate-700">
               Model 3 (Hybrid Fusion)
             </span>
-            <h4 className="text-base font-bold text-slate-900 mt-3">Model Kombinasi</h4>
+            <h4 className="text-base font-bold text-slate-800 mt-3">Model Kombinasi</h4>
             <p className="text-xs text-slate-500">GLCM (72D) + EfficientNet (1280D) + SVM</p>
-            <div className="text-4xl font-black text-teal-800 mt-4">62.0%</div>
-            <div className="text-xs text-teal-800 font-bold mb-4">Macro F1 Tertinggi ⭐</div>
-            <div className="pt-3 border-t border-teal-200/80 grid grid-cols-2 text-xs text-slate-600">
+            <div className="text-4xl font-black text-slate-700 mt-4">62.0%</div>
+            <div className="text-xs text-slate-500 font-semibold mb-4">Macro F1 Tertinggi</div>
+            <div className="pt-3 border-t border-slate-200 grid grid-cols-2 text-xs text-slate-600">
               <div>Precision: <strong>68.8%</strong></div>
               <div>Akurasi: <strong>61.1%</strong></div>
             </div>
@@ -80,7 +78,7 @@ export function PerformanceSection() {
                   : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
               }`}
             >
-              <BarChart3 className="w-3.5 h-3.5" /> Bar Chart Perbandingan
+              <BarChart3 className="w-3.5 h-3.5" /> Diagram Perbandingan Metrik
             </button>
             <button
               onClick={() => setActiveTab('learning')}
@@ -90,7 +88,7 @@ export function PerformanceSection() {
                   : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
               }`}
             >
-              <TrendingUp className="w-3.5 h-3.5" /> Learning Curve (12 Epochs)
+              <TrendingUp className="w-3.5 h-3.5" /> Kurva Pembelajaran (12 Epoch)
             </button>
             <button
               onClick={() => setActiveTab('confusion_hybrid')}
@@ -100,7 +98,7 @@ export function PerformanceSection() {
                   : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
               }`}
             >
-              <Grid3X3 className="w-3.5 h-3.5" /> Confusion Matrix (Hybrid)
+              <Grid3X3 className="w-3.5 h-3.5" /> Matriks Konfusi (Model Hybrid)
             </button>
             <button
               onClick={() => setActiveTab('confusion_eff')}
@@ -110,7 +108,7 @@ export function PerformanceSection() {
                   : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
               }`}
             >
-              <Grid3X3 className="w-3.5 h-3.5" /> Confusion Matrix (EfficientNet)
+              <Grid3X3 className="w-3.5 h-3.5" /> Matriks Konfusi (EfficientNet-B0)
             </button>
           </div>
 

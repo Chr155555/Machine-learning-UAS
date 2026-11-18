@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'PlantDoc AI - Sistem Deteksi Penyakit Daun Berbasis Multi-Modal Machine Learning',
+  title: 'Sistem Deteksi Penyakit Daun - Fusi Fitur GLCM, EfficientNet-B0 & SVM | UAS ML FTI UNTAR',
   description: 'Projek Akhir UAS Machine Learning Fakultas Teknologi Informasi Universitas Tarumanagara. Klasifikasi 28 kelas penyakit daun tanaman menggunakan fusi fitur spasial GLCM dan Deep Transfer Learning EfficientNet-B0 dengan SVM.',
   icons: {
     icon: '/favicon.ico',
