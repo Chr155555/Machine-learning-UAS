@@ -6,10 +6,16 @@ import { DISEASE_CATALOG } from '@/lib/disease_data';
 
 export function CatalogSection() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'healthy' | 'infected'>('all');
 
   const diseasesList = Object.entries(DISEASE_CATALOG);
 
   const filtered = diseasesList.filter(([_, item]) => {
+    // 1. Status Filter
+    if (statusFilter === 'healthy' && !item.is_healthy) return false;
+    if (statusFilter === 'infected' && item.is_healthy) return false;
+
+    // 2. Search Query
     const q = searchQuery.toLowerCase().trim();
     if (!q) return true;
     return (
@@ -23,27 +29,63 @@ export function CatalogSection() {
   return (
     <section id="katalog" className="py-16 bg-slate-50 border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider mb-2">
-            <BookOpen className="w-3.5 h-3.5" /> Basis Pengetahuan
-          </div>
+        <div className="text-center max-w-3xl mx-auto mb-10">
           <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-            Katalog 28 Kelas Daun Tanaman
+            Katalog 28 Kelas Daun Tanaman Yang dimiliki PlantDoc
           </h2>
-          <p className="text-slate-600 text-sm sm:text-base mt-2">
-            Daftar lengkap komoditas pertanian dan penyakit tanaman yang dapat dideteksi oleh sistem PlantDoc AI.
-          </p>
 
-          {/* Search Box */}
-          <div className="mt-6 max-w-md mx-auto relative">
-            <Search className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Cari nama tanaman atau penyakit (misal: Tomat, Apel)..."
-              className="w-full pl-11 pr-4 py-2.5 rounded-full border border-slate-200 bg-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm"
-            />
+          {/* Search Box & Status Filter Bar */}
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+            {/* Search Input */}
+            <div className="relative flex-1 w-full max-w-md">
+              <Search className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Cari nama tanaman atau penyakit (misal: Tomat, Apel)..."
+                className="w-full pl-11 pr-4 py-2.5 rounded-full border border-slate-200 bg-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm"
+              />
+            </div>
+
+            {/* Filter Toggle: Semua, Daun Sehat, Terinfeksi */}
+            <div className="inline-flex items-center p-1 rounded-full bg-slate-200/80 border border-slate-200 text-xs shrink-0">
+              <button
+                type="button"
+                onClick={() => setStatusFilter('all')}
+                className={`px-3 py-1.5 rounded-full font-semibold transition-all ${
+                  statusFilter === 'all'
+                    ? 'bg-white text-slate-900 shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                Semua (28)
+              </button>
+              <button
+                type="button"
+                onClick={() => setStatusFilter('healthy')}
+                className={`px-3 py-1.5 rounded-full font-semibold transition-all flex items-center gap-1.5 ${
+                  statusFilter === 'healthy'
+                    ? 'bg-white text-emerald-800 shadow-xs'
+                    : 'text-slate-600 hover:text-emerald-700'
+                }`}
+              >
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Daun Sehat (10)</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setStatusFilter('infected')}
+                className={`px-3 py-1.5 rounded-full font-semibold transition-all flex items-center gap-1.5 ${
+                  statusFilter === 'infected'
+                    ? 'bg-white text-rose-800 shadow-xs'
+                    : 'text-slate-600 hover:text-rose-700'
+                }`}
+              >
+                <AlertCircle className="w-3.5 h-3.5 text-rose-600" />
+                <span>Terinfeksi (18)</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -55,7 +97,7 @@ export function CatalogSection() {
               className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all flex flex-col justify-between"
             >
               <div>
-                <div className="flex items-center justify-between mb-2">
+                <div className="mb-2.5">
                   <span
                     className={`inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full ${
                       item.is_healthy
@@ -73,20 +115,18 @@ export function CatalogSection() {
                       </>
                     )}
                   </span>
-                  <span className="text-[11px] text-slate-400 italic truncate max-w-[140px]">
-                    {item.name_en}
-                  </span>
                 </div>
 
-                <h4 className="font-bold text-slate-900 text-sm mb-1">{item.name_id}</h4>
+                <h4 className="font-bold text-slate-900 text-sm mb-1 leading-snug">
+                  {item.name_id}{' '}
+                  <span className="text-xs font-normal text-slate-400 italic">
+                    ({item.name_en})
+                  </span>
+                </h4>
                 <div className="text-xs font-semibold text-emerald-700 mb-2">{item.plant}</div>
                 <p className="text-xs text-slate-500 line-clamp-3 leading-relaxed">
                   {item.description}
                 </p>
-              </div>
-
-              <div className="pt-3 mt-3 border-t border-slate-100 text-[11px] text-slate-400">
-                <span className="font-semibold text-slate-600">Patogen:</span> {item.pathogen}
               </div>
             </div>
           ))}
@@ -94,7 +134,7 @@ export function CatalogSection() {
 
         {filtered.length === 0 && (
           <div className="text-center py-12 text-slate-400 text-sm">
-            Tidak ditemukan penyakit atau tanaman dengan kata kunci "{searchQuery}".
+            Tidak ditemukan penyakit atau tanaman dengan filter yang dipilih.
           </div>
         )}
       </div>
