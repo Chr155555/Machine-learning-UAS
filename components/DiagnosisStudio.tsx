@@ -123,16 +123,40 @@ export function DiagnosisStudio() {
         formData.append('sample_name', selectedSample);
       }
 
-      const res = await fetch('/api/predict', {
-        method: 'POST',
-        body: formData,
-      });
+      let finalResult: PredictionData | null = null;
 
-      const data = await res.json();
-      if (data.status === 'success') {
-        setResult(data);
+      try {
+        const res = await fetch('/api/predict', {
+          method: 'POST',
+          body: formData,
+        });
+
+        const data = await res.json();
+        if (data.status === 'success') {
+          // If running locally with real Python PyTorch, or using preset sample
+          if (!data.is_cloud_fallback || selectedSample) {
+            finalResult = data;
+          }
+        }
+      } catch {
+        // Fallback to client-side ONNX engine on network/serverless issues
+      }
+
+      // If running on Vercel Cloud Serverless where Python is absent, execute real ONNX model in browser
+      if (!finalResult && previewUrl) {
+        try {
+          const { predictWithOnnx } = await import('@/lib/onnx_inference');
+          const onnxData = await predictWithOnnx(previewUrl, selectedModel);
+          finalResult = onnxData as PredictionData;
+        } catch (onnxErr: any) {
+          console.error('ONNX Web inference error:', onnxErr);
+        }
+      }
+
+      if (finalResult && finalResult.status === 'success') {
+        setResult(finalResult);
       } else {
-        setErrorMsg(data.message || 'Gagal memproses inferensi.');
+        setErrorMsg('Gagal memproses inferensi citra daun.');
       }
     } catch (err: any) {
       setErrorMsg('Terjadi kesalahan jaringan saat menghubungkan ke inference engine.');

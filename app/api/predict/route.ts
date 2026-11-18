@@ -184,6 +184,7 @@ function buildFallbackResult(sampleName: string | null, selectedModel: string, f
       : 'EfficientNet-B0 (Deep Learning)',
     inference_time_ms: 245.5,
     engine_mode: 'cloud_serverless',
+    is_cloud_fallback: true,
     prediction: {
       class_raw: primaryClass,
       name_id: detail.name_id,
