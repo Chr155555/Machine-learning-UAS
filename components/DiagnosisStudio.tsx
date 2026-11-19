@@ -170,11 +170,8 @@ export function DiagnosisStudio() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider mb-2">
-            <Stethoscope className="w-3.5 h-3.5" /> Studio Diagnosis Daun
-          </div>
           <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-            Uji Citra Daun dengan Multi-Algoritma
+            Uji Citra Daun dengan Banyak Metode
           </h2>
           <p className="text-slate-600 text-sm sm:text-base mt-2">
             Pilih model AI, unggah foto daun atau klik sampel cepat di bawah, lalu dapatkan hasil diagnosis klinis dan rekomendasi obat pertanian secara otomatis.

@@ -4,7 +4,7 @@ import { promisify } from 'node:util';
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import os from 'node:os';
-import { DISEASE_CATALOG, DiseaseItem } from '@/lib/disease_data';
+import { DISEASE_CATALOG } from '@/lib/disease_data';
 
 const execFileAsync = promisify(execFile);
 
@@ -250,10 +250,11 @@ export async function POST(req: NextRequest) {
       const data = JSON.parse(lastLine);
       data.engine_mode = 'local_pytorch';
       return NextResponse.json(data);
-    } catch (pyErr: any) {
+    } catch (pyErr: unknown) {
       // If Python binary is NOT found (e.g. spawn python ENOENT on Vercel Cloud Serverless)
       // or execution failed due to environment, gracefully switch to Cloud Serverless Engine!
-      console.warn('Python execution unavailable (Cloud Serverless environment detected):', pyErr?.message || pyErr);
+      const errMessage = pyErr instanceof Error ? pyErr.message : String(pyErr);
+      console.warn('Python execution unavailable (Cloud Serverless environment detected):', errMessage);
 
       if (isTempFile) {
         fs.unlink(targetImagePath).catch(() => {});
@@ -262,7 +263,7 @@ export async function POST(req: NextRequest) {
       const fallbackData = buildFallbackResult(sampleName, model, uploadedFileName);
       return NextResponse.json(fallbackData);
     }
-  } catch (err: any) {
+  } catch (err: unknown) {
     if (isTempFile && targetImagePath) {
       fs.unlink(targetImagePath).catch(() => {});
     }
