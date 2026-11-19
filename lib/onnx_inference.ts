@@ -33,7 +33,7 @@ function loadImage(src: string): Promise<HTMLImageElement> {
     const img = new Image();
     img.crossOrigin = 'anonymous';
     img.onload = () => resolve(img);
-    img.onerror = (e) => reject(new Error('Gagal memproses gambar untuk inferensi AI'));
+    img.onerror = () => reject(new Error('Gagal memproses gambar untuk inferensi AI'));
     img.src = src;
   });
 }
